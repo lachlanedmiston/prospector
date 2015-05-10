@@ -6,8 +6,6 @@ using System.Linq;
 using System.Net;
 using System.Runtime.Serialization.Formatters.Binary;
 
-using Amazon.SimpleEmail;
-using Amazon.SimpleEmail.Model;
 using Browshot;
 using HtmlAgilityPack;
 

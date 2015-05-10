@@ -50,7 +50,7 @@ namespace Prospector
     }
 
     /// <summary>
-    /// TODO
+    /// Any number of network or http errors are hidden behind these.
     /// </summary>
     public class BrowshotException : Exception
     {
@@ -72,7 +72,7 @@ namespace Prospector
     }
 
     /// <summary>
-    /// 
+    /// This is why we have crawl farms, kids.
     /// </summary>
     public class GooglingTooFrequentlyException : Exception
     {
