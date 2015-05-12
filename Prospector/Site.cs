@@ -23,6 +23,9 @@ namespace Prospector
         Resolved
     };
 
+    /// <summary>
+    /// Represents all information knwon about a crawled website 
+    /// </summary>
     public class Site : IEquatable<Site>
     {
 
@@ -35,6 +38,12 @@ namespace Prospector
 
         public HtmlDocument doc;
 
+        /// <summary>
+        /// Returns a new Site object
+        /// </summary>
+        /// <param name="url">The url of the website</param>
+        /// <param name="keyword">The keyword that the site was ranking for</param>
+        /// <param name="badURL">The first known instance of spam on the site. Optional.</param>
         public Site(string url, string keyword, string badURL = "")
         {
             this.url = url;
