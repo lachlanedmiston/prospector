@@ -20,23 +20,14 @@ namespace Prospector
 
         private HtmlWeb web;
         public List<Site> sites;
-        public List<Site> priorSites;
         public string spamUrl;
 
         /// <summary>
         /// Creates a new SerpResults object
         /// </summary>
-        /// <param name="priorSites"></param>
-        public SerpResults(List<Site> priorSites)
         {
             web = new HtmlWeb();
             sites = new List<Site>();
-            this.priorSites = priorSites;
-
-            string accessKeyID = "AKIAJKIIPRINSIFBKMAQ";
-            string secretKey = "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";
-                        
-            Amazon.Util.ProfileManager.RegisterProfile("Mail", accessKeyID, secretKey);
         }
 
         /// <summary>
@@ -74,13 +65,6 @@ namespace Prospector
 
                     Site newSite = new Site("http://" + url, keyword);
 
-                    // ignore if the site was recorded in previous crawl
-                    if (priorSites.Contains(newSite))
-                    {
-                        continue;
-                    }
-
-                    // finally, add if the site hasn't been seen *this* crawl
                     if (!sites.Contains(newSite))
                     {
                         sites.Add(newSite);
@@ -122,7 +106,6 @@ namespace Prospector
                 if (!title.ToLower().Contains(keyword.ToLower()) &&
                     !snippet.ToLower().Contains(keyword.ToLower()))
                 {
-                    priorSites.Add(new Site(url, firstBad, 0, keyword, status.Clean));
                     return;
                 }
 
@@ -132,62 +115,10 @@ namespace Prospector
                 }
             }
 
-            priorSites.Add(new Site(url, firstBad, 0, keyword, status.Prospect));
             sites.Add(new Site("http://" + url, keyword, firstBad));
         }
 
         /// <summary>
-        /// Send a templated email to every 
-        /// </summary>
-        /// <param name="firstName"></param>
-        /// <param name="address"></param>
-        /// <param name="url"></param>
-        /// <param name="screenUrl"></param>
-        /// <param name="keyword"></param>
-        public void SendMail(string firstName, string address, string url, string screenUrl, string keyword )
-        {
-            string searchUrl = "https://www.google.com.au/search?q=site:" + url + " " + keyword;
-
-            string subject = "Website security breach";
-            string greeting = (firstName != "") ? "Hi " + firstName + "," : "Hi there,";
-            string body =
-                greeting + 
-                "<br /><br />" +
-                "I hate to be the bearer of bad news but your website - " + url + " - has been hacked. " +
-                "The attackers have hidden an online store on the site which they are now using to sell illegal pharmaceuticals." +
-                "<br /><br />" +
-                "You can see a screenshot of the hidden store here: <a href='" + screenUrl + "'>link</a>. A quick google search " +
-                "(<a href='" + searchUrl + "'>see here</a>) shows that a large number of pharmaceutical-related pages are now " +
-                "appearing in the search results for your site." +
-                "<br /><br />" +
-                "I deal with problems like these on a regular basis. If you'd like me to resolve this issue for you, or you'd like to " +
-                "talk more about it, please contact me at this email address. I'd be happy to help." +
-                "<br /><br />" +
-                "Regards," +
-                "<br /><br />" +
-                "Lachlan Edmiston.";
-
-            Destination destination = new Destination();
-            destination.ToAddresses = (new List<string>() { address });
-
-            Content sub = new Content(subject);
-            Body bod = new Body(new Content(body));
-
-            Message email = new Message(sub, bod);
-
-            SendEmailRequest request = new SendEmailRequest("lachlan.edmiston@gmail.com", destination, email);
-
-            try
-            {
-                Amazon.Runtime.AWSCredentials credentials = new Amazon.Runtime.StoredProfileAWSCredentials("Mail");
-                AmazonSimpleEmailServiceClient client = new AmazonSimpleEmailServiceClient(credentials, Amazon.RegionEndpoint.USEast1);
-                SendEmailResponse response = client.SendEmail(request);
-            }
-            catch (Exception ex)
-            {
-                ErrorLogger.Log(ex, url);
-            }
-        }
 
         /// <summary>
         /// 
@@ -284,47 +215,9 @@ namespace Prospector
         }
 
         /// <summary>
-        /// Load a previously saved session from file
+        /// Construct a web request which will pass for a legit request from Firefox
         /// </summary>
-        /// <param name="filename">Name of 'db' to access</param>
-        /// <returns>The previous crawl DB</returns>
-        public static List<Site> FromFile(string filename)
         {
-            try
-            {
-                using (Stream stream = File.Open(filename, FileMode.Open))
-                {
-                    BinaryFormatter bin = new BinaryFormatter();
-
-                    return (List<Site>)bin.Deserialize(stream);
-                }
-            }
-            catch (IOException ex)
-            {
-                ErrorLogger.Log(ex, "DeSerialize error");
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Write the current session to file
-        /// </summary>
-        /// <param name="sites">The current crawl DB</param>
-        /// <param name="filename">Name of 'db' to write to</param>
-        public static void ToFile(List<Site> sites, string filename)
-        {
-            try
-            {
-                using (Stream stream = File.Open(filename, FileMode.Create))
-                {
-                    BinaryFormatter bin = new BinaryFormatter();
-                    bin.Serialize(stream, sites);
-                }
-            }
-            catch (IOException ex)
-            {
-                ErrorLogger.Log(ex, "Serialize error");
-            }
         }
 
         /// <summary>

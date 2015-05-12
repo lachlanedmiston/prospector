@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Serialization;
 
 using HtmlAgilityPack;
 
@@ -24,7 +23,6 @@ namespace Prospector
         Resolved
     };
 
-    [Serializable()]
     public class Site : IEquatable<Site>
     {
 
@@ -35,7 +33,6 @@ namespace Prospector
         public CMS cmsUsed { get; set; }
         public status siteStatus { get; set; }
 
-        [NonSerialized]
         public HtmlDocument doc;
 
         public Site(string url, string keyword, string badURL = "")
@@ -44,16 +41,6 @@ namespace Prospector
             this.keyword = keyword;
             this.cmsUsed = CMS.Unknown;
             this.badURL = badURL;
-        }
-
-        // for serializing
-        public Site(string url, string badURL, int browshotID, string keyword, status siteStatus)
-        {
-            this.url = url;
-            this.badURL = badURL;
-            this.browshotID = browshotID;
-            this.keyword = keyword;
-            this.siteStatus = siteStatus;
         }
 
         public bool Equals(Site comparer)
