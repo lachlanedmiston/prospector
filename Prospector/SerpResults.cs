@@ -209,6 +209,8 @@ namespace Prospector
             BrowshotClient browshot = new BrowshotClient(BrowshotAPIKey);
             Dictionary<string, object> result;
 
+            Directory.CreateDirectory("out");
+
             for (int i = 0; i < sites.Count; i++)
             {
                 if (sites[i].browshotID == 0)
@@ -262,7 +264,7 @@ namespace Prospector
         /// </summary>
         public void ToCSV()
         {
-            string csv = "";
+            string csv = "Site URL, Spam Example URL" + Environment.NewLine;
 
             foreach (Site site in sites)
             {
