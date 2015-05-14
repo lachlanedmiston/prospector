@@ -122,19 +122,18 @@ namespace Prospector
             Console.WriteLine();
 
             string line1 =
-                "This program demonstrates a web scraper that finds hacked sites. These sites are serving spam " +
-                "pages without their owner's knowledge or consent. Possible applications for the scraper " +
-                "include lead generation for a security consultant or a public service notification system.";
+                "This is a demonstration of a web crawler that identifies hacked sites that are unknowingly serving " +
+                "spam. In this example, the program will find sites which sell the prescription medication Cialis. " +
+                "The crawler can target any keyword or combination of keywords, as well as filter by gTLD.";
 
             WriteWrappedLine(line1);
 
             Console.WriteLine();
 
             string line2 =
-                "In this demo, the program will be searching for illicit online pharmacies that use the keyword " +
-                "'cialis'. This prescription medication is a very profitable niche for spammers and is sold on a " +
-                "large number of hacked sites. At no time does the program actually visit a hacked page, rather " +
-                "it uses Google search results and a third party screenshot service to harvest information.";
+                "Positive results are indicated by the repetitive occurrence of the keyword in many successive search "+
+                "engine results. For example, a site which has 'Cialis' in every title, URL and snippet accross 20+ " +
+                "pages is 95% of the time a hacked site. ";
 
             WriteWrappedLine(line2);
 

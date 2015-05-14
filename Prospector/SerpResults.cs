@@ -47,7 +47,7 @@ namespace Prospector
                 Google.DelayToAvoidBan();
 
                 // add pagination info to the query URL. eg:
-                //   &num=100 is 100 results per page. 100 is ~max, though some spots may be lost to ads
+                //   &num=100 is 100 results per page. Limited to 10 here 
                 //   &start=0 would start at the 1st item of the 1st page, 101 would be 1st on 2nd page
                 completeQuery = query + "&num=10&start=" + 10 * currentPage;
 
