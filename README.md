@@ -2,7 +2,7 @@
 
 This is a demonstration of a web crawler that identifies hacked sites that are unknowingly serving spam. In this example, the program will find sites which sell the prescription medication Cialis. The crawler can target any keyword or combination of keywords, as well as filter by gTLD.
 
-Positive results are indicated by the repetitive occurrence of the keyword in many successive search engine results. For example, a site which has 'Cialis' in every title, URL and snippet accross 20+ pages is 95% of the time a hacked site. 
+Positive results are indicated by the repetitive occurrence of the keyword in many successive search engine results. For example, a site which has 'Cialis' in every title, URL and snippet across 20+ pages is 95% of the time a hacked site. 
 
 ###Installation
 
